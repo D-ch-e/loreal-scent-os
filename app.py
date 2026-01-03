@@ -267,6 +267,7 @@ canvas {
     margin: 0 0 4px 0;
     letter-spacing: 1px;
     text-transform: uppercase;
+    color: #FFFFFF !important;
 }
 
 .scent-content h2 {
@@ -275,6 +276,7 @@ canvas {
     font-weight: 700;
     letter-spacing: 1px;
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    color: #FFFFFF !important;
 }
 
 .scent-content h3 {
@@ -282,6 +284,30 @@ canvas {
     font-size: 1.2rem;
     font-weight: 600;
     opacity: 0.95;
+    color: #FFFFFF !important;
+}
+
+.scent-content p {
+    color: #FFFFFF !important;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+    .scent-card {
+        height: 200px;
+    }
+    
+    .scent-content {
+        padding: 1rem;
+    }
+
+    .scent-content h2 {
+        font-size: 1.2rem;
+    }
+    
+    .scent-content h3 {
+        font-size: 1rem;
+    }
 }
 
 /* Mobile optimization */
