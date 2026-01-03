@@ -311,7 +311,7 @@ footer { visibility: hidden; }
 if st.session_state.page == 'home' and not st.session_state.generated:
     # 生成前：顯示完整側邊欄
     with st.sidebar:
-        st.image("https://www.google.com/imgres?imgurl=http://www.bellyrubzbeauty.com/wp-content/uploads/2014/04/Logo_Loreal_Paris1.jpg&tbnid=M_lr6UNA_ALmUM&vet=1&imgrefurl=https://www.bellyrubzbeauty.com/2014/04/03/hollywood-star-joins-loreal-paris-spokesmodel-family%25E2%2580%258F/&docid=CAN1Q5rp8DsWkM&w=1600&h=617&hl=zh-TW&source=sh/x/im/m1/7&kgs=c4095c22c79230ef&shem=isst,shrtsdl&utm_source=isst,shrtsdl,sh/x/im/m1/7", width=150)
+        st.image("https://www.bellyrubzbeauty.com/wp-content/uploads/2014/04/Logo_Loreal_Paris1.jpg", width=150)
         st.markdown("### SYSTEM STATUS")
         
         st.success("● ONLINE: LE SABLIER PRO")
