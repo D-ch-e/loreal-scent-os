@@ -115,6 +115,16 @@ textarea:focus, input:focus {
      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+button[kind="header"] {
+     font-size: 0 !important;
+}
+
+button[kind="header"]::before {
+     content: "☰" !important;
+     font-size: 1.5rem !important;
+     display: inline-block !important;
+}
+
 section[data-testid="stSidebar"] {
      background-color: #FFFFFF;
      border-right: 1px solid var(--border-light);
