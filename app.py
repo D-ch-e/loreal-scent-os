@@ -363,7 +363,7 @@ if st.session_state.page == 'home':
     
     # 修改：主畫面橫幅 (Banner Image)
     # 使用 Unsplash 的高級香水/實驗室風格圖片
-    st.image("https://i.pinimg.com/1200x/9f/c7/8d/9fc78d9b19942a768ecbc0620241e34b.jpg", use_container_width=True)
+    st.image("https://drive.google.com/file/d/1vgUn0D3ND5h2ox9nYOGMhP5qCu7TsQEZ/view?usp=sharing", use_container_width=True)
     
     st.markdown("<h1 class='centered-title'>L'ORÉAL SCENT OS</h1>", unsafe_allow_html=True)
     
