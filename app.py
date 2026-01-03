@@ -428,24 +428,24 @@ if st.session_state.page == 'home':
                 key="scent_input"
             )
             
-            st.markdown("##### 💡 QUICK INSPIRATIONS")
+            st.markdown("##### QUICK INSPIRATIONS")
             preset_col1, preset_col2, preset_col3 = st.columns(3)
             with preset_col1:
-                if st.button("📚 Library", use_container_width=True):
+                if st.button("Library", use_container_width=True):
                     st.session_state.user_input = "Old books, leather chairs, wooden shelves, and quiet contemplation"
                     st.rerun()
             with preset_col2:
-                if st.button("🌊 Ocean", use_container_width=True):
+                if st.button("Ocean", use_container_width=True):
                     st.session_state.user_input = "Fresh sea breeze, salt water, driftwood, and morning sun on waves"
                     st.rerun()
             with preset_col3:
-                if st.button("☕ Café", use_container_width=True):
+                if st.button("Café", use_container_width=True):
                     st.session_state.user_input = "Fresh coffee beans, warm pastries, vanilla, and cozy afternoon ambiance"
                     st.rerun()
             
             st.markdown("<br>", unsafe_allow_html=True)
             
-            if st.button("✨ GENERATE SCENT SIGNATURE", use_container_width=True):
+            if st.button("GENERATE SCENT SIGNATURE", use_container_width=True):
                 if user_input:
                     st.session_state.user_input = user_input
                     st.session_state.generated = True
@@ -601,12 +601,12 @@ if st.session_state.page == 'home':
             if st.button("SAVE PRESET", use_container_width=True):
                 if st.session_state.recipe not in st.session_state.saved_presets:
                     st.session_state.saved_presets.append(st.session_state.recipe.copy())
-                    st.toast("✅ Preset saved successfully!", icon="💾")
+                    st.toast("Preset saved successfully!")
                 else:
-                    st.toast("ℹ️ Preset already saved", icon="ℹ️")
+                    st.toast("Preset already saved")
         with ac2:
             if st.button("SHARE", use_container_width=True):
-                st.toast("Published to community!", icon="🌐")
+                st.toast("Published to community!")
         with ac3:
             if st.button("COMMUNITY", use_container_width=True):
                 st.session_state.page = 'community'
@@ -614,7 +614,7 @@ if st.session_state.page == 'home':
 
         if st.session_state.saved_presets:
             st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("📚 VIEW MY PRESETS"):
+            if st.button("VIEW MY PRESETS"):
                 st.session_state.page = 'presets'
                 st.rerun()
 
@@ -626,7 +626,7 @@ elif st.session_state.page == 'community':
     
     search_col1, search_col2 = st.columns([3, 1])
     with search_col1:
-        search_query = st.text_input("🔍 Search presets...", placeholder="Search by name, creator, or tags")
+        search_query = st.text_input("Search presets...", placeholder="Search by name, creator, or tags")
     with search_col2:
         sort_by = st.selectbox("Sort by", ["Trending", "Recent", "Popular"])
     
@@ -656,11 +656,11 @@ elif st.session_state.page == 'community':
             """, unsafe_allow_html=True)
             download_col, preview_col = st.columns(2)
             with download_col:
-                if st.button(f"📥 DOWNLOAD", key=f"dl_{i}", use_container_width=True):
-                    st.toast(f"✅ Downloaded {scent['name']}!", icon="📥")
+                if st.button(f"DOWNLOAD", key=f"dl_{i}", use_container_width=True):
+                    st.toast(f"Downloaded {scent['name']}!")
             with preview_col:
-                if st.button(f"👁️ PREVIEW", key=f"pv_{i}", use_container_width=True):
-                    st.toast(f"Preview: {scent['notes']}", icon="👁️")
+                if st.button(f"PREVIEW", key=f"pv_{i}", use_container_width=True):
+                    st.toast(f"Preview: {scent['notes']}")
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
@@ -677,19 +677,19 @@ elif st.session_state.page == 'presets':
             st.rerun()
     else:
         for idx, preset in enumerate(st.session_state.saved_presets):
-            with st.expander(f"📋 {preset['name']} - {preset['timestamp']}"):
+            with st.expander(f"{preset['name']} - {preset['timestamp']}"):
                 st.markdown(f"**Original Input:** {preset['input']}")
                 col1, col2, col3 = st.columns(3)
                 with col1:
-                    if st.button(f"🔄 REGENERATE", key=f"regen_{idx}"):
+                    if st.button(f"REGENERATE", key=f"regen_{idx}"):
                         st.session_state.user_input = preset['input']
                         st.session_state.page = 'home'
                         st.session_state.generated = False
                         st.rerun()
                 with col2:
-                    if st.button(f"🗑️ DELETE", key=f"del_{idx}"):
+                    if st.button(f"DELETE", key=f"del_{idx}"):
                         st.session_state.saved_presets.pop(idx)
                         st.rerun()
                 with col3:
                     if st.button(f"📤 EXPORT", key=f"exp_{idx}"):
-                        st.toast("Exported successfully!", icon="✅")
+                        st.toast("Exported successfully!")
