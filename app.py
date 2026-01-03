@@ -456,7 +456,7 @@ if st.session_state.page == 'home':
             ("CITRUS", "20%", "Top", "#58D68D"),
             ("ROSE", "10%", "Heart", "#A569BD"),
             ("MUSK", "35%", "Base", "#DC7633"),
-            ("VANILLA", "20%", "Base", "#E59866")
+            ("Ambergris", "20%", "Base", "#E59866")
         ]
 
         scent_images = {
