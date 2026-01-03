@@ -120,30 +120,7 @@ section[data-testid="stSidebar"] {
      border-right: 1px solid var(--border-light);
 }
 
-/* 修正側邊欄按鈕 - 隱藏錯誤文字 */
-button[kind="header"] {
-     font-size: 0 !important;
-}
 
-button[kind="header"] svg {
-     display: block !important;
-     width: 24px !important;
-     height: 24px !important;
-}
-
-/* 強制使用系統預設圖示 */
-button[kind="header"] span[data-testid] {
-     font-size: 0 !important;
-}
-
-button[kind="header"]:before {
-     content: "" !important;
-}
-
-section[data-testid="stSidebar"] {
-     background-color: #FFFFFF;
-     border-right: 1px solid var(--border-light);
-}
 
 div[data-testid="metric-container"] {
      background-color: #FFFFFF;
