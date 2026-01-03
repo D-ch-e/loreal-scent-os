@@ -115,21 +115,29 @@ textarea:focus, input:focus {
      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-/* 修正側邊欄按鈕顯示問題 */
-button[kind="header"] span {
-     display: none !important;
+section[data-testid="stSidebar"] {
+     background-color: #FFFFFF;
+     border-right: 1px solid var(--border-light);
 }
 
-button[kind="header"]::after {
-     content: "☰";
-     font-size: 1.5rem;
-     font-family: Arial, sans-serif !important;
-}
-
-/* 確保按鈕本身可見 */
+/* 修正側邊欄按鈕 - 隱藏錯誤文字 */
 button[kind="header"] {
+     font-size: 0 !important;
+}
+
+button[kind="header"] svg {
      display: block !important;
-     visibility: visible !important;
+     width: 24px !important;
+     height: 24px !important;
+}
+
+/* 強制使用系統預設圖示 */
+button[kind="header"] span[data-testid] {
+     font-size: 0 !important;
+}
+
+button[kind="header"]:before {
+     content: "" !important;
 }
 
 section[data-testid="stSidebar"] {
