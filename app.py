@@ -182,33 +182,20 @@ canvas {
      50% { opacity: 0.5; }
 }
 
-.recipe-card {
-     background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
-     border: 1px solid var(--border-light);
-     border-radius: 8px;
-     padding: 16px;
-     text-align: right;
-     transition: all 0.3s ease;
-}
-
-.recipe-card:hover {
-     transform: translateY(-5px);
-     box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-}
-
-/* ===== SCENT IMAGE CARD ===== */
-
+/* ===== SCENT IMAGE CARD (REFINED) ===== */
 .scent-card {
     position: relative;
-    height: 220px;
-    border-radius: 14px;
+    height: 240px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
-    transition: transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .scent-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-8px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
 }
 
 .scent-bg {
@@ -223,42 +210,59 @@ canvas {
     position: absolute;
     inset: 0;
     z-index: 2;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.6) 100%);
 }
 
 .scent-content {
     position: relative;
     z-index: 3;
     height: 100%;
-    padding: 1rem;
+    padding: 1.2rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-}
-
-.scent-content h2 {
-    margin: 0;
-    font-size: 1.3rem;
-    font-weight: 700;
-}
-
-.scent-content h3 {
-    margin: 0;
-    font-size: 1.1rem;
+    text-align: left;
 }
 
 .scent-layer {
     font-size: 0.75rem;
-    opacity: 0.85;
+    opacity: 0.9;
+    margin: 0 0 4px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-/* 📱 手機優化 */
+.scent-content h2 {
+    margin: 4px 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.scent-content h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    opacity: 0.95;
+}
+
+/* Mobile optimization */
 @media (max-width: 768px) {
     .scent-card {
-        height: 180px;
+        height: 200px;
+    }
+    
+    .scent-content {
+        padding: 1rem;
     }
 
     .scent-content h2 {
-        font-size: 1.15rem;
+        font-size: 1.2rem;
+    }
+    
+    .scent-content h3 {
+        font-size: 1rem;
     }
 }
 
@@ -266,7 +270,7 @@ footer { visibility: hidden; }
 </style>
 """, unsafe_allow_html=True)
 
-# --- 2. 側邊欄邏輯 (Enhanced with more info) ---
+# --- 2. 側邊欄邏輯 ---
 if st.session_state.page == 'home' and not st.session_state.generated:
     with st.sidebar:
         st.image("https://upload.wikimedia.org/wikipedia/commons/9/9d/L%27Or%C3%A9al_logo.svg", width=150)
@@ -279,9 +283,8 @@ if st.session_state.page == 'home' and not st.session_state.generated:
         st.markdown("### LIVE SENSORS")
         col1, col2 = st.columns(2)
         col1.metric("HRV", "45ms", "Relaxed")
-        col2.metric("BODY TEMP", "36.5°C", "Normal")
+        col2.metric("TEMP", "36.5°C", "Normal")
         
-        # Environmental factors
         st.markdown("---")
         st.markdown("### ENVIRONMENT")
         st.caption("Location: Taipei, Taiwan")
@@ -306,7 +309,6 @@ if st.session_state.page == 'home' and not st.session_state.generated:
             "Pod 11: Cedar (Base)": 0.9,
             "Pod 12: Benzoin (Base)": 0.5,
             "Pod 13: Solvent (Alc)": 0.7,
-
         }
         
         with st.container():
@@ -314,7 +316,6 @@ if st.session_state.page == 'home' and not st.session_state.generated:
                 st.text(name)
                 st.progress(level)
             
-        # Show saved presets count
         if st.session_state.saved_presets:
             st.markdown("---")
             st.info(f"💾 {len(st.session_state.saved_presets)} Saved Presets")
@@ -352,7 +353,6 @@ if st.session_state.page == 'home':
                 key="scent_input"
             )
             
-            # Quick preset suggestions
             st.markdown("##### 💡 QUICK INSPIRATIONS")
             preset_col1, preset_col2, preset_col3 = st.columns(3)
             with preset_col1:
@@ -374,7 +374,6 @@ if st.session_state.page == 'home':
                 if user_input:
                     st.session_state.user_input = user_input
                     st.session_state.generated = True
-                    # Generate unique recipe based on input
                     st.session_state.recipe = {
                         'name': f"CUSTOM-{len(st.session_state.saved_presets)+1:03d}",
                         'input': user_input,
@@ -398,7 +397,7 @@ if st.session_state.page == 'home':
 
         st.markdown("---")
 
-        # Phase 1 & 2 with enhanced visualization
+        # Phase 1 & 2
         col_phase1, col_phase2 = st.columns(2)
         
         with col_phase1:
@@ -445,55 +444,59 @@ if st.session_state.page == 'home':
 
         st.markdown("---")
 
-        # Recipe with enhanced cards
+        # Recipe cards with images
         st.markdown("<h3 style='text-align: center;'>FINAL RECIPE</h3>", unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
         
         rc1, rc2, rc3, rc4, rc5 = st.columns(5)
         
-        metrics = [
-            ("ORANGE", "15%", "Top", "#F4D03F"),
-            ("CITRUS", "20%", "Top", "#58D68D"),
-            ("ROSE", "10%", "Heart", "#A569BD"),
-            ("MUSK", "35%", "Base", "#DC7633"),
-            ("Ambergris", "20%", "Base", "#E59866")
+        # Define scent data with online images
+        scents_data = [
+            {
+                "name": "ORANGE",
+                "percent": "15%",
+                "layer": "Top",
+                "image": "https://images.unsplash.com/photo-1582979512210-99b6a53386f9?w=500&h=500&fit=crop&q=80"
+            },
+            {
+                "name": "CITRUS",
+                "percent": "20%",
+                "layer": "Top",
+                "image": "https://images.unsplash.com/photo-1590502593747-42a996133562?w=500&h=500&fit=crop&q=80"
+            },
+            {
+                "name": "ROSE",
+                "percent": "10%",
+                "layer": "Heart",
+                "image": "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=500&h=500&fit=crop&q=80"
+            },
+            {
+                "name": "MUSK",
+                "percent": "35%",
+                "layer": "Base",
+                "image": "https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=500&h=500&fit=crop&q=80"
+            },
+            {
+                "name": "AMBERGRIS",
+                "percent": "20%",
+                "layer": "Base",
+                "image": "https://images.unsplash.com/photo-1604762524889-8088e03e6beb?w=500&h=500&fit=crop&q=80"
+            }
         ]
-
-        scent_images = {
-            "ORANGE": "assets/orange.jpg",
-            "CITRUS": "assets/citrus.jpg",
-            "ROSE": "assets/rose.jpg",
-            "MUSK": "assets/musk.jpg",
-            "Ambergris": "assets/Ambergris.jpg"
-        }
         
-        image_opacity = 0.55          # ✅ 圖片透明度（你可調）
-        text_color = "#FFFFFF"        # ✅ 字的顏色（你可調）
-        overlay_color = "rgba(0,0,0,0.35)"  # ✅ 遮罩強度（超重要）
-
         for i, col in enumerate([rc1, rc2, rc3, rc4, rc5]):
-            name, percent, layer, accent = metrics[i]
-            img = scent_images[name]
-
+            scent = scents_data[i]
+            
             with col:
                 st.markdown(f"""
                 <div class="scent-card">
-
-                    <div class="scent-bg"
-                        style="background-image:url('{img}');
-                                opacity:{image_opacity};">
+                    <div class="scent-bg" style="background-image: url('{scent['image']}');"></div>
+                    <div class="scent-overlay"></div>
+                    <div class="scent-content" style="color: #FFFFFF;">
+                        <p class="scent-layer">{scent['layer']} Note</p>
+                        <h2>{scent['name']}</h2>
+                        <h3>{scent['percent']}</h3>
                     </div>
-
-                    <div class="scent-overlay"
-                        style="background:{overlay_color};">
-                    </div>
-
-                    <div class="scent-content" style="color:{text_color};">
-                        <p class="scent-layer">{layer} Note</p>
-                        <h2>{name}</h2>
-                        <h3>{percent}</h3>
-                    </div>
-
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -504,9 +507,9 @@ if st.session_state.page == 'home':
              <div class='manifesto-box'>
                 <h4>📖 USER GUIDE & SCENT INTRODUCTION</h4>
                 <p><strong>Your Input:</strong> <em>"{st.session_state.recipe['input'][:100]}..."</em></p>
-                <p><strong>Olfactory Profile:</strong> This scent captures the essence of <em>"Quiet Intellect"</em>. The volatility of the Bergamot top note provides an immediate awakening, while the heavy molecular weight of Cedarwood ensures a sillage that lasts through 8 hours of deep work.</p>
-                <p><strong>Physical Properties:</strong> Optimized for high-humidity environments (Taiwan). The PIML engine has added <strong>Hydrophobic Fixatives</strong> to prevent the scent from breaking down in sweat.</p>
-                <p><strong>How to Wear:</strong> Apply 2 sprays to pulse points. Wait 30 seconds for the alcohol to evaporate before smelling to experience the true Heart Note.</p>
+                <p><strong>Olfactory Profile:</strong> This scent captures the essence of <em>"Quiet Intellect"</em>. The volatility of the top notes provides an immediate awakening, while the heavy molecular weight of the base notes ensures a sillage that lasts through 8 hours.</p>
+                <p><strong>Physical Properties:</strong> Optimized for high-humidity environments (Taiwan). The PIML engine has added <strong>Hydrophobic Fixatives</strong> to prevent the scent from breaking down.</p>
+                <p><strong>How to Wear:</strong> Apply 2 sprays to pulse points. Wait 30 seconds for the alcohol to evaporate before experiencing the true Heart Note.</p>
                 <p><strong>Best For:</strong> Indoor environments, 20-26°C, moderate activity level</p>
              </div>
              """, unsafe_allow_html=True)
@@ -530,7 +533,6 @@ if st.session_state.page == 'home':
                 st.session_state.page = 'community'
                 st.rerun()
 
-        # View saved presets
         if st.session_state.saved_presets:
             st.markdown("<br>", unsafe_allow_html=True)
             if st.button("📚 VIEW MY PRESETS"):
@@ -543,7 +545,6 @@ elif st.session_state.page == 'community':
     st.markdown("<h1 class='centered-title'>SCENT COMMUNITY MARKETPLACE</h1>", unsafe_allow_html=True)
     st.markdown("<p class='centered-text'>Discover & Download Presets created by users worldwide</p>", unsafe_allow_html=True)
     
-    # Search and filter
     search_col1, search_col2 = st.columns([3, 1])
     with search_col1:
         search_query = st.text_input("🔍 Search presets...", placeholder="Search by name, creator, or tags")
