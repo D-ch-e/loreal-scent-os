@@ -526,25 +526,29 @@ if st.session_state.page == 'home':
                 "image": "https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=500&h=500&fit=crop&q=80"
             },
             {
-                "name": "AMBERGRIS",
+                "name": "Vanilla",
                 "percent": "20%",
                 "layer": "Base",
-                "image": "https://images.unsplash.com/photo-1604762524889-8088e03e6beb?w=500&h=500&fit=crop&q=80"
+                "image": "https://images.unsplash.com/photo-1594140634584-70e07cd2967b?q=80&w=948&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             }
         ]
         
         for i, col in enumerate([rc1, rc2, rc3, rc4, rc5]):
             scent = scents_data[i]
+            # 可調整參數
+            image_opacity = 0.7        # 圖片透明度 (0.0-1.0)
+            overlay_darkness = 0.4     # 遮罩深度 (0.0-1.0)
+            text_color = "#FFFFFF"     # 文字顏色
             
             with col:
                 st.markdown(f"""
                 <div class="scent-card">
-                    <div class="scent-bg" style="background-image: url('{scent['image']}');"></div>
-                    <div class="scent-overlay"></div>
-                    <div class="scent-content" style="color: #FFFFFF;">
-                        <p class="scent-layer">{scent['layer']} Note</p>
-                        <h2>{scent['name']}</h2>
-                        <h3>{scent['percent']}</h3>
+                    <div class="scent-bg" style="background-image: url('{scent['image']}'); opacity: {image_opacity};"></div>
+                    <div class="scent-overlay" style="background: linear-gradient(to bottom, rgba(0,0,0,{overlay_darkness * 0.3}) 0%, rgba(0,0,0,{overlay_darkness}) 100%);"></div>
+                    <div class="scent-content" style="color: {text_color};">
+                        <p class="scent-layer" style="color: {text_color};">{scent['layer']} Note</p>
+                        <h2 style="color: {text_color} !important;">{scent['name']}</h2>
+                        <h3 style="color: {text_color} !important;">{scent['percent']}</h3>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
