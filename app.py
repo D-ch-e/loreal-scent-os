@@ -115,14 +115,21 @@ textarea:focus, input:focus {
      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-button[kind="header"] {
-     font-size: 0 !important;
+/* 修正側邊欄按鈕顯示問題 */
+button[kind="header"] span {
+     display: none !important;
 }
 
-button[kind="header"]::before {
-     content: "☰" !important;
-     font-size: 1.5rem !important;
-     display: inline-block !important;
+button[kind="header"]::after {
+     content: "☰";
+     font-size: 1.5rem;
+     font-family: Arial, sans-serif !important;
+}
+
+/* 確保按鈕本身可見 */
+button[kind="header"] {
+     display: block !important;
+     visibility: visible !important;
 }
 
 section[data-testid="stSidebar"] {
