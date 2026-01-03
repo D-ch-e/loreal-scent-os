@@ -123,32 +123,15 @@ section[data-testid="stSidebar"] {
      border-right: 1px solid var(--border-light);
 }
 
-/* 強制隱藏側邊欄收合按鈕 - 包含 hover 狀態 */
+/* 強制隱藏側邊欄收合按鈕 */
 button[kind="header"],
 button[kind="header"]:hover,
 button[data-testid="collapsedControl"],
-button[data-testid="collapsedControl"]:hover,
-[data-testid="collapsedControl"],
-section[data-testid="stSidebar"] > div:first-child > button,
-section[data-testid="stSidebar"] button[aria-label],
-.css-1dp5vir,
-.st-emotion-cache-1dp5vir,
-div[data-testid="stSidebarNav"] + div button,
-section[data-testid="stSidebar"] > button {
-     display: none !important;
-     visibility: hidden !important;
-     opacity: 0 !important;
-     pointer-events: none !important;
-     width: 0 !important;
-     height: 0 !important;
-}
-
-/* 隱藏側邊欄頂部可能包含按鈕的區域 */
-section[data-testid="stSidebar"] > div[data-testid] > div:first-child {
+[data-testid="collapsedControl"] {
      display: none !important;
 }
 
-/* 在生成後隱藏整個側邊欄 */
+/* 在生成後或 Community 頁面隱藏整個側邊欄 */
 .sidebar-hidden section[data-testid="stSidebar"] {
      display: none !important;
 }
@@ -210,16 +193,15 @@ canvas {
      background-color: #FFFFFF !important;
 }
 
-.pulse {
-     animation: pulse 2s infinite;
+/* Banner Image Style */
+.banner-img {
+    width: 100%;
+    height: auto;
+    border-radius: 0px 0px 12px 12px;
+    margin-bottom: 20px;
 }
 
-@keyframes pulse {
-     0%, 100% { opacity: 1; }
-     50% { opacity: 0.5; }
-}
-
-/* ===== SCENT IMAGE CARD (REFINED) ===== */
+/* ===== SCENT IMAGE CARD ===== */
 .scent-card {
     position: relative;
     height: 240px;
@@ -229,12 +211,10 @@ canvas {
     transition: all 0.3s ease;
     cursor: pointer;
 }
-
 .scent-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 8px 24px rgba(0,0,0,0.25);
 }
-
 .scent-bg {
     position: absolute;
     inset: 0;
@@ -242,14 +222,12 @@ canvas {
     background-position: center;
     z-index: 1;
 }
-
 .scent-overlay {
     position: absolute;
     inset: 0;
     z-index: 2;
     background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.6) 100%);
 }
-
 .scent-content {
     position: relative;
     z-index: 3;
@@ -260,7 +238,6 @@ canvas {
     justify-content: flex-end;
     text-align: left;
 }
-
 .scent-layer {
     font-size: 0.75rem;
     opacity: 0.9;
@@ -269,7 +246,6 @@ canvas {
     text-transform: uppercase;
     color: #FFFFFF !important;
 }
-
 .scent-content h2 {
     margin: 4px 0;
     font-size: 1.5rem;
@@ -278,7 +254,6 @@ canvas {
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     color: #FFFFFF !important;
 }
-
 .scent-content h3 {
     margin: 0;
     font-size: 1.2rem;
@@ -286,60 +261,25 @@ canvas {
     opacity: 0.95;
     color: #FFFFFF !important;
 }
-
 .scent-content p {
     color: #FFFFFF !important;
 }
-
-/* Mobile optimization */
-@media (max-width: 768px) {
-    .scent-card {
-        height: 200px;
-    }
-    
-    .scent-content {
-        padding: 1rem;
-    }
-
-    .scent-content h2 {
-        font-size: 1.2rem;
-    }
-    
-    .scent-content h3 {
-        font-size: 1rem;
-    }
-}
-
-/* Mobile optimization */
-@media (max-width: 768px) {
-    .scent-card {
-        height: 200px;
-    }
-    
-    .scent-content {
-        padding: 1rem;
-    }
-
-    .scent-content h2 {
-        font-size: 1.2rem;
-    }
-    
-    .scent-content h3 {
-        font-size: 1rem;
-    }
-}
-
 footer { visibility: hidden; }
 </style>
 """, unsafe_allow_html=True)
 
-# --- 2. 側邊欄邏輯 ---
-if st.session_state.page == 'home' and not st.session_state.generated:
-    # 生成前：顯示完整側邊欄
+# --- 2. 側邊欄邏輯 (Sidebar Logic) ---
+
+# 判斷是否顯示側邊欄：只有在 (Home 頁面) 且 (尚未生成) 時顯示
+show_sidebar = (st.session_state.page == 'home' and not st.session_state.generated)
+
+if show_sidebar:
+    # 顯示完整側邊欄
     with st.sidebar:
-        st.image("https://www.bellyrubzbeauty.com/wp-content/uploads/2014/04/Logo_Loreal_Paris1.jpg", width=150)
-        st.markdown("### SYSTEM STATUS")
+        # 修改：Logo 放大 (use_container_width=True)
+        st.image("https://www.bellyrubzbeauty.com/wp-content/uploads/2014/04/Logo_Loreal_Paris1.jpg", use_container_width=True)
         
+        st.markdown("### SYSTEM STATUS")
         st.success("● ONLINE: LE SABLIER PRO")
         st.caption("Firmware: v3.0.1 | Latency: 12ms")
         
@@ -384,10 +324,9 @@ if st.session_state.page == 'home' and not st.session_state.generated:
             st.markdown("---")
             st.info(f"💾 {len(st.session_state.saved_presets)} Saved Presets")
     
-    # 不添加隱藏 class
-    
 else:
-    # 生成後：隱藏側邊欄，添加 CSS class
+    # 隱藏側邊欄邏輯 (生成後 或 Community 頁面 或 Presets 頁面)
+    # 注入 CSS 來隱藏側邊欄
     st.markdown("""
     <script>
         var appElement = window.parent.document.querySelector('.stApp');
@@ -395,15 +334,19 @@ else:
             appElement.classList.add('sidebar-hidden');
         }
     </script>
+    <style>
+        section[data-testid="stSidebar"] {
+            display: none !important;
+        }
+    </style>
     """, unsafe_allow_html=True)
     
-    with st.sidebar:
-        if st.session_state.page == 'community':
-            if st.button("← BACK TO GENERATOR"):
-                st.session_state.page = 'home'
-                st.rerun()
-        elif st.session_state.page == 'presets':
-            if st.button("← BACK TO HOME"):
+    # 注意：這裡我們不在 st.sidebar 寫入任何東西，確保 community 頁面側邊欄完全消失
+    
+    # 只在 Presets 頁面時，如果想要有返回按鈕在側邊欄，才寫入 (但根據需求，community 要完全不見)
+    if st.session_state.page == 'presets':
+         with st.sidebar:
+             if st.button("← BACK TO HOME"):
                 st.session_state.page = 'home'
                 st.rerun()
 
@@ -411,6 +354,10 @@ else:
 
 # =========== 頁面 A: GENERATOR ===========
 if st.session_state.page == 'home':
+    
+    # 修改：主畫面橫幅 (Banner Image)
+    # 使用 Unsplash 的高級香水/實驗室風格圖片
+    st.image("https://images.unsplash.com/photo-1595867086884-8e367466eb30?q=80&w=2070&auto=format&fit=crop", use_container_width=True)
     
     st.markdown("<h1 class='centered-title'>L'ORÉAL SCENT OS</h1>", unsafe_allow_html=True)
     
@@ -663,6 +610,9 @@ elif st.session_state.page == 'community':
                     st.toast(f"Preview: {scent['notes']}")
 
     st.markdown("<br><br>", unsafe_allow_html=True)
+    if st.button("← BACK TO GENERATOR"):
+        st.session_state.page = 'home'
+        st.rerun()
 
 # =========== 頁面 C: MY PRESETS ===========
 elif st.session_state.page == 'presets':
