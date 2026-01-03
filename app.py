@@ -324,11 +324,11 @@ else:
     with st.sidebar:
         st.empty()
         if st.session_state.page == 'community':
-            if st.button("⬅ BACK TO GENERATOR"):
+            if st.button("BACK TO GENERATOR"):
                 st.session_state.page = 'home'
                 st.rerun()
         elif st.session_state.page == 'presets':
-            if st.button("⬅ BACK TO HOME"):
+            if st.button("BACK TO HOME"):
                 st.session_state.page = 'home'
                 st.rerun()
 
