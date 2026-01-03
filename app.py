@@ -34,6 +34,7 @@ st.markdown("""
      --text-main: #111111;
      --text-muted: #555555;
      --accent: #8C6D1F;
+     --accent-gold: #BE9C5C;
 }
 
 * {
@@ -186,13 +187,79 @@ canvas {
      border: 1px solid var(--border-light);
      border-radius: 8px;
      padding: 16px;
-     text-align: center;
+     text-align: right;
      transition: all 0.3s ease;
 }
 
 .recipe-card:hover {
      transform: translateY(-5px);
      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+/* ===== SCENT IMAGE CARD ===== */
+
+.scent-card {
+    position: relative;
+    height: 220px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+    transition: transform 0.3s ease;
+}
+
+.scent-card:hover {
+    transform: translateY(-6px);
+}
+
+.scent-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+.scent-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+}
+
+.scent-content {
+    position: relative;
+    z-index: 3;
+    height: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.scent-content h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.scent-content h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.scent-layer {
+    font-size: 0.75rem;
+    opacity: 0.85;
+}
+
+/* 📱 手機優化 */
+@media (max-width: 768px) {
+    .scent-card {
+        height: 180px;
+    }
+
+    .scent-content h2 {
+        font-size: 1.15rem;
+    }
 }
 
 footer { visibility: hidden; }
@@ -391,14 +458,42 @@ if st.session_state.page == 'home':
             ("MUSK", "35%", "Base", "#DC7633"),
             ("VANILLA", "20%", "Base", "#E59866")
         ]
+
+        scent_images = {
+            "ORANGE": "assets/orange.jpg",
+            "CITRUS": "assets/citrus.jpg",
+            "ROSE": "assets/rose.jpg",
+            "MUSK": "assets/musk.jpg",
+            "Ambergris": "assets/Ambergris.jpg"
+        }
         
+        image_opacity = 0.55          # ✅ 圖片透明度（你可調）
+        text_color = "#FFFFFF"        # ✅ 字的顏色（你可調）
+        overlay_color = "rgba(0,0,0,0.35)"  # ✅ 遮罩強度（超重要）
+
         for i, col in enumerate([rc1, rc2, rc3, rc4, rc5]):
+            name, percent, layer, accent = metrics[i]
+            img = scent_images[name]
+
             with col:
                 st.markdown(f"""
-                <div class='recipe-card'>
-                    <p style='font-size: 0.8em; color: #888; margin: 0;'>{metrics[i][2]} Note</p>
-                    <h2 style='color: {metrics[i][3]}; margin: 10px 0;'>{metrics[i][0]}</h2>
-                    <h3 style='margin: 0;'>{metrics[i][1]}</h3>
+                <div class="scent-card">
+
+                    <div class="scent-bg"
+                        style="background-image:url('{img}');
+                                opacity:{image_opacity};">
+                    </div>
+
+                    <div class="scent-overlay"
+                        style="background:{overlay_color};">
+                    </div>
+
+                    <div class="scent-content" style="color:{text_color};">
+                        <p class="scent-layer">{layer} Note</p>
+                        <h2>{name}</h2>
+                        <h3>{percent}</h3>
+                    </div>
+
                 </div>
                 """, unsafe_allow_html=True)
 
