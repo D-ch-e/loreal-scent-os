@@ -8,7 +8,7 @@ st.set_page_config(
     page_title="L'ORÉAL SCENT OS",
     page_icon="⏳",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="expanded" # 預設展開
 )
 
 # 初始化 Session State
@@ -123,12 +123,18 @@ section[data-testid="stSidebar"] {
      border-right: 1px solid var(--border-light);
 }
 
-/* 強制隱藏側邊欄收合按鈕 */
-button[kind="header"],
-button[kind="header"]:hover,
-button[data-testid="collapsedControl"],
-[data-testid="collapsedControl"] {
-     display: none !important;
+/* ================================================================= */
+/* [關鍵修改] 強制隱藏側邊欄的收合按鈕 (X按鈕 / >按鈕) */
+/* ================================================================= */
+[data-testid="collapsedControl"],
+[data-testid="stSidebar"] button {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* 確保側邊欄頂部不會留白 */
+section[data-testid="stSidebar"] > div:first-child {
+    padding-top: 0rem;
 }
 
 /* 在生成後或 Community 頁面隱藏整個側邊欄 */
@@ -357,7 +363,7 @@ if st.session_state.page == 'home':
     
     # 修改：主畫面橫幅 (Banner Image)
     # 使用 Unsplash 的高級香水/實驗室風格圖片
-    st.image("https://drive.google.com/file/d/1iFy49_Ez8ByX10XRvkzxQilUj2iR80tM/view?usp=sharing", use_container_width=True)
+    st.image("https://i.pinimg.com/1200x/9f/c7/8d/9fc78d9b19942a768ecbc0620241e34b.jpg", use_container_width=True)
     
     st.markdown("<h1 class='centered-title'>L'ORÉAL SCENT OS</h1>", unsafe_allow_html=True)
     
