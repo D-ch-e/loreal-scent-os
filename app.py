@@ -123,8 +123,21 @@ section[data-testid="stSidebar"] {
      border-right: 1px solid var(--border-light);
 }
 
-/* 隱藏側邊欄收合按鈕（永久顯示模式） */
-button[kind="header"] {
+/* 強制隱藏側邊欄收合按鈕的所有可能選擇器 */
+button[kind="header"],
+button[data-testid="collapsedControl"],
+[data-testid="collapsedControl"],
+section[data-testid="stSidebar"] > div:first-child > button,
+.css-1dp5vir,
+.st-emotion-cache-1dp5vir {
+     display: none !important;
+     visibility: hidden !important;
+     opacity: 0 !important;
+     pointer-events: none !important;
+}
+
+/* 隱藏包含 keyboard 文字的元素 */
+span:contains("keyboard") {
      display: none !important;
 }
 
