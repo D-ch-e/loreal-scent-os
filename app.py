@@ -505,31 +505,31 @@ if st.session_state.page == 'home':
                 "name": "ORANGE",
                 "percent": "15%",
                 "layer": "Top",
-                "image": "https://images.unsplash.com/photo-1582979512210-99b6a53386f9?w=500&h=500&fit=crop&q=80"
+                "image": "https://images.unsplash.com/photo-1580052614034-c55d20bfee3b?w=500&h=500&fit=crop&q=80"
             },
             {
                 "name": "CITRUS",
                 "percent": "20%",
                 "layer": "Top",
-                "image": "https://images.unsplash.com/photo-1590502593747-42a996133562?w=500&h=500&fit=crop&q=80"
+                "image": "https://images.unsplash.com/photo-1643131514219-1e480cce39aa?w=500&h=500&fit=crop&q=80"
             },
             {
                 "name": "ROSE",
                 "percent": "10%",
                 "layer": "Heart",
-                "image": "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=500&h=500&fit=crop&q=80"
+                "image": "https://images.unsplash.com/photo-1559563362-c667ba5f5480?w=500&h=500&fit=crop&q=80"
             },
             {
                 "name": "MUSK",
                 "percent": "35%",
                 "layer": "Base",
-                "image": "https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=500&h=500&fit=crop&q=80"
+                "image": "https://images.unsplash.com/photo-1570179805972-447bde72210f?w=500&h=500&fit=crop&q=80"
             },
             {
                 "name": "Vanilla",
                 "percent": "20%",
                 "layer": "Base",
-                "image": "https://images.unsplash.com/photo-1594140634584-70e07cd2967b?q=80&w=948&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                "image": "https://images.unsplash.com/photo-1594140634584-70e07cd2967b?w=500&h=500&fit=crop&q=80"
             }
         ]
         
