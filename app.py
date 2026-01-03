@@ -8,7 +8,7 @@ st.set_page_config(
     page_title="L'ORÉAL SCENT OS",
     page_icon="⏳",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
 # 初始化 Session State
@@ -26,6 +26,9 @@ if 'saved_presets' not in st.session_state:
 # CSS (Enhanced with animations)
 st.markdown("""
 <style>
+/* 載入 Material Icons 字體 */
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 :root {
      --bg-main: #FFFFFF;
      --bg-soft: #FAFAFA;
@@ -120,7 +123,19 @@ section[data-testid="stSidebar"] {
      border-right: 1px solid var(--border-light);
 }
 
+/* 隱藏側邊欄收合按鈕（永久顯示模式） */
+button[kind="header"] {
+     display: none !important;
+}
 
+/* 在生成後隱藏整個側邊欄 */
+.sidebar-hidden section[data-testid="stSidebar"] {
+     display: none !important;
+}
+
+.sidebar-hidden section[data-testid="stSidebar"] + section {
+     margin-left: 0 !important;
+}
 
 div[data-testid="metric-container"] {
      background-color: #FFFFFF;
@@ -274,6 +289,7 @@ footer { visibility: hidden; }
 
 # --- 2. 側邊欄邏輯 ---
 if st.session_state.page == 'home' and not st.session_state.generated:
+    # 生成前：顯示完整側邊欄
     with st.sidebar:
         st.image("https://upload.wikimedia.org/wikipedia/commons/9/9d/L%27Or%C3%A9al_logo.svg", width=150)
         st.markdown("### SYSTEM STATUS")
@@ -321,16 +337,27 @@ if st.session_state.page == 'home' and not st.session_state.generated:
         if st.session_state.saved_presets:
             st.markdown("---")
             st.info(f"💾 {len(st.session_state.saved_presets)} Saved Presets")
-            
+    
+    # 不添加隱藏 class
+    
 else:
+    # 生成後：隱藏側邊欄，添加 CSS class
+    st.markdown("""
+    <script>
+        var appElement = window.parent.document.querySelector('.stApp');
+        if (appElement) {
+            appElement.classList.add('sidebar-hidden');
+        }
+    </script>
+    """, unsafe_allow_html=True)
+    
     with st.sidebar:
-        st.empty()
         if st.session_state.page == 'community':
-            if st.button("BACK TO GENERATOR"):
+            if st.button("← BACK TO GENERATOR"):
                 st.session_state.page = 'home'
                 st.rerun()
         elif st.session_state.page == 'presets':
-            if st.button("BACK TO HOME"):
+            if st.button("← BACK TO HOME"):
                 st.session_state.page = 'home'
                 st.rerun()
 
