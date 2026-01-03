@@ -123,21 +123,28 @@ section[data-testid="stSidebar"] {
      border-right: 1px solid var(--border-light);
 }
 
-/* 強制隱藏側邊欄收合按鈕的所有可能選擇器 */
+/* 強制隱藏側邊欄收合按鈕 - 包含 hover 狀態 */
 button[kind="header"],
+button[kind="header"]:hover,
 button[data-testid="collapsedControl"],
+button[data-testid="collapsedControl"]:hover,
 [data-testid="collapsedControl"],
 section[data-testid="stSidebar"] > div:first-child > button,
+section[data-testid="stSidebar"] button[aria-label],
 .css-1dp5vir,
-.st-emotion-cache-1dp5vir {
+.st-emotion-cache-1dp5vir,
+div[data-testid="stSidebarNav"] + div button,
+section[data-testid="stSidebar"] > button {
      display: none !important;
      visibility: hidden !important;
      opacity: 0 !important;
      pointer-events: none !important;
+     width: 0 !important;
+     height: 0 !important;
 }
 
-/* 隱藏包含 keyboard 文字的元素 */
-span:contains("keyboard") {
+/* 隱藏側邊欄頂部可能包含按鈕的區域 */
+section[data-testid="stSidebar"] > div[data-testid] > div:first-child {
      display: none !important;
 }
 
