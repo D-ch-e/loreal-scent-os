@@ -8,7 +8,7 @@ st.set_page_config(
     page_title="L'ORÉAL SCENT OS",
     page_icon="⏳",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # 初始化 Session State
