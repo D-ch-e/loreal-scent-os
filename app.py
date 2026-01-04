@@ -277,7 +277,7 @@ footer { visibility: hidden; }
 # --- 2. 側邊欄邏輯 (Sidebar Logic) ---
 
 # 判斷是否顯示側邊欄：只有在 (Home 頁面) 且 (尚未生成) 時顯示
-show_sidebar = (st.session_state.page == 'home' and not st.session_state.generated)
+#show_sidebar = (st.session_state.page == 'home' and not st.session_state.generated)
 
 if show_sidebar:
     # 顯示完整側邊欄
