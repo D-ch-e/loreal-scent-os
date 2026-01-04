@@ -210,16 +210,16 @@ canvas {
 /* ===== SCENT IMAGE CARD ===== */
 .scent-card {
     position: relative;
-    height: 240px;
-    border-radius: 12px;
+    height: 180px;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
     transition: all 0.3s ease;
     cursor: pointer;
 }
 .scent-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
 }
 .scent-bg {
     position: absolute;
@@ -238,37 +238,59 @@ canvas {
     position: relative;
     z-index: 3;
     height: 100%;
-    padding: 1.2rem;
+    padding: 0.8rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     text-align: left;
 }
 .scent-layer {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     opacity: 0.9;
-    margin: 0 0 4px 0;
-    letter-spacing: 1px;
+    margin: 0 0 2px 0;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
     color: #FFFFFF !important;
 }
 .scent-content h2 {
-    margin: 4px 0;
-    font-size: 1.5rem;
+    margin: 2px 0;
+    font-size: 1.1rem;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     color: #FFFFFF !important;
 }
 .scent-content h3 {
     margin: 0;
-    font-size: 1.2rem;
+    font-size: 0.95rem;
     font-weight: 600;
     opacity: 0.95;
     color: #FFFFFF !important;
 }
 .scent-content p {
     color: #FFFFFF !important;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+    .scent-card {
+        height: 140px;
+        border-radius: 6px;
+    }
+    .scent-content {
+        padding: 0.6rem;
+    }
+    .scent-layer {
+        font-size: 0.55rem;
+        margin: 0 0 1px 0;
+    }
+    .scent-content h2 {
+        font-size: 0.9rem;
+        margin: 1px 0;
+    }
+    .scent-content h3 {
+        font-size: 0.8rem;
+    }
 }
 footer { visibility: hidden; }
 </style>
@@ -296,6 +318,7 @@ if st.session_state.page == 'home':
     
     if not st.session_state.generated:
         st.markdown("<p class='centered-text'>DUAL-CORE GENERATIVE ENGINE</p>", unsafe_allow_html=True)
+        st.markdown("<br><br>", unsafe_allow_html=True)
         
         c1, c2, c3 = st.columns([1, 2, 1])
         with c2:
@@ -402,7 +425,11 @@ if st.session_state.page == 'home':
         st.markdown("<h3 style='text-align: center;'>FINAL RECIPE</h3>", unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
         
-        rc1, rc2, rc3, rc4, rc5 = st.columns(5)
+        # Use different column layouts for mobile vs desktop
+        # On mobile, show 2 columns per row; on desktop, show all 5
+        rc1, rc2 = st.columns(2)
+        rc3, rc4 = st.columns(2)
+        rc5_col = st.columns(1)[0]
         
         # Define scent data with online images
         scents_data = [
@@ -438,14 +465,15 @@ if st.session_state.page == 'home':
             }
         ]
         
-        for i, col in enumerate([rc1, rc2, rc3, rc4, rc5]):
-            scent = scents_data[i]
+        # Display cards in responsive layout
+        cols = [rc1, rc2, rc3, rc4, rc5_col]
+        for i, scent in enumerate(scents_data):
             # 可調整參數
             image_opacity = 0.7        # 圖片透明度 (0.0-1.0)
             overlay_darkness = 0.4     # 遮罩深度 (0.0-1.0)
             text_color = "#FFFFFF"     # 文字顏色
             
-            with col:
+            with cols[i]:
                 st.markdown(f"""
                 <div class="scent-card">
                     <div class="scent-bg" style="background-image: url('{scent['image']}'); opacity: {image_opacity};"></div>
