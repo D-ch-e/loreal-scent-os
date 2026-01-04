@@ -173,6 +173,29 @@ div[data-testid="metric-container"]:hover {
      border-color: var(--accent);
 }
 
+/* Mobile optimization for community cards */
+@media (max-width: 768px) {
+     .community-card {
+          padding: 12px;
+          border-radius: 6px;
+     }
+     .community-card h3 {
+          font-size: 1.1rem !important;
+          margin-bottom: 4px !important;
+     }
+     .community-card p {
+          font-size: 0.85rem !important;
+          margin: 3px 0 !important;
+     }
+     .centered-title {
+          font-size: 2rem !important;
+          letter-spacing: 2px;
+     }
+     .centered-text {
+          font-size: 0.9rem !important;
+     }
+}
+
 thead tr th {
      background-color: var(--bg-soft) !important;
      color: #000000 !important;
@@ -528,49 +551,50 @@ if st.session_state.page == 'home':
 # =========== 頁面 B: COMMUNITY ===========
 elif st.session_state.page == 'community':
     
-    st.markdown("<h1 class='centered-title'>SCENT COMMUNITY MARKETPLACE</h1>", unsafe_allow_html=True)
-    st.markdown("<p class='centered-text'>Discover & Download Presets created by users worldwide</p>", unsafe_allow_html=True)
+    st.markdown("<h1 class='centered-title'>SCENT COMMUNITY</h1>", unsafe_allow_html=True)
+    st.markdown("<p class='centered-text'>Discover & Download Presets</p>", unsafe_allow_html=True)
     
-    search_col1, search_col2 = st.columns([3, 1])
+    # Simplified search on mobile
+    search_col1, search_col2 = st.columns([2, 1])
     with search_col1:
-        search_query = st.text_input("Search presets...", placeholder="Search by name, creator, or tags")
+        search_query = st.text_input("Search...", placeholder="Name, creator, tags", label_visibility="collapsed")
     with search_col2:
-        sort_by = st.selectbox("Sort by", ["Trending", "Recent", "Popular"])
+        sort_by = st.selectbox("Sort", ["Trending", "Recent", "Popular"], label_visibility="collapsed")
     
     st.markdown("---")
 
     scents = [
-        {"name": "CYBER RAIN", "user": "@Alex_TW", "tags": ["#Neon", "#Metallic", "#Night"], "notes": "Ozone, Metal, Musk", "downloads": 1247},
-        {"name": "SUNDAY MORNING", "user": "@Sarah_J", "tags": ["#Cozy", "#Cotton", "#Coffee"], "notes": "Linen, Latte, Vanilla", "downloads": 2891},
-        {"name": "FOREST WORK", "user": "@David_Eng", "tags": ["#Focus", "#Green", "#Wood"], "notes": "Pine, Vetiver, Moss", "downloads": 1653},
-        {"name": "TOKYO DRIFT", "user": "@Kenji_JP", "tags": ["#Speed", "#Rubber", "#Asphalt"], "notes": "Burnt Rubber, Smoke, Leather", "downloads": 987},
+        {"name": "CYBER RAIN", "user": "@Alex_TW", "tags": "#Neon #Night", "notes": "Ozone, Metal, Musk", "downloads": 1247},
+        {"name": "SUNDAY MORNING", "user": "@Sarah_J", "tags": "#Cozy #Coffee", "notes": "Linen, Latte, Vanilla", "downloads": 2891},
+        {"name": "FOREST WORK", "user": "@David_Eng", "tags": "#Focus #Wood", "notes": "Pine, Vetiver, Moss", "downloads": 1653},
+        {"name": "TOKYO DRIFT", "user": "@Kenji_JP", "tags": "#Speed #Asphalt", "notes": "Rubber, Smoke, Leather", "downloads": 987},
     ]
 
-    row1_1, row1_2 = st.columns(2)
-    row2_1, row2_2 = st.columns(2)
-    cols = [row1_1, row1_2, row2_1, row2_2]
-
+    # Single column layout for mobile-friendly display
     for i, scent in enumerate(scents):
-        with cols[i]:
-            st.markdown(f"""
-            <div class='community-card'>
-                <h3>{scent['name']}</h3>
-                <p style='color: #8C6D1F;'>Created by {scent['user']}</p>
-                <p style='font-size: 0.9em;'><strong>Notes:</strong> {scent['notes']}</p>
-                <p><em>{' '.join(scent['tags'])}</em></p>
-                <p style='font-size: 0.85em; color: #888;'>⬇️ {scent['downloads']} downloads</p>
-            </div>
-            """, unsafe_allow_html=True)
-            download_col, preview_col = st.columns(2)
-            with download_col:
-                if st.button(f"DOWNLOAD", key=f"dl_{i}", use_container_width=True):
-                    st.toast(f"Downloaded {scent['name']}!")
-            with preview_col:
-                if st.button(f"PREVIEW", key=f"pv_{i}", use_container_width=True):
-                    st.toast(f"Preview: {scent['notes']}")
+        st.markdown(f"""
+        <div class='community-card'>
+            <h3 style='margin: 0 0 6px 0;'>{scent['name']}</h3>
+            <p style='color: #8C6D1F; margin: 4px 0;'>{scent['user']}</p>
+            <p style='font-size: 0.9em; margin: 4px 0;'><strong>Notes:</strong> {scent['notes']}</p>
+            <p style='margin: 4px 0;'><em>{scent['tags']}</em></p>
+            <p style='font-size: 0.85em; color: #888; margin: 4px 0 0 0;'>⬇️ {scent['downloads']} downloads</p>
+        </div>
+        """, unsafe_allow_html=True)
+        download_col, preview_col = st.columns(2)
+        with download_col:
+            if st.button(f"DOWNLOAD", key=f"dl_{i}", use_container_width=True):
+                st.toast(f"Downloaded {scent['name']}!")
+        with preview_col:
+            if st.button(f"PREVIEW", key=f"pv_{i}", use_container_width=True):
+                st.toast(f"Preview: {scent['notes']}")
+        
+        # Add spacing between cards
+        if i < len(scents) - 1:
+            st.markdown("<div style='margin: 12px 0;'></div>", unsafe_allow_html=True)
 
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    if st.button("← BACK TO GENERATOR"):
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("← BACK TO GENERATOR", use_container_width=True):
         st.session_state.page = 'home'
         st.rerun()
 
