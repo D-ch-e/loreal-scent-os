@@ -296,7 +296,6 @@ if st.session_state.page == 'home':
     
     if not st.session_state.generated:
         st.markdown("<p class='centered-text'>DUAL-CORE GENERATIVE ENGINE</p>", unsafe_allow_html=True)
-        st.markdown("<br><br>", unsafe_allow_html=True)
         
         c1, c2, c3 = st.columns([1, 2, 1])
         with c2:
