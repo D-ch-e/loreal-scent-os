@@ -276,85 +276,14 @@ footer { visibility: hidden; }
 
 # --- 2. 側邊欄邏輯 (Sidebar Logic) ---
 
-# 判斷是否顯示側邊欄：只有在 (Home 頁面) 且 (尚未生成) 時顯示
-#show_sidebar = (st.session_state.page == 'home' and not st.session_state.generated)
-
-if show_sidebar:
-    # 顯示完整側邊欄
-    with st.sidebar:
-        # 修改：Logo 放大 (use_container_width=True)
-        st.image("https://www.bellyrubzbeauty.com/wp-content/uploads/2014/04/Logo_Loreal_Paris1.jpg", use_container_width=True)
-        
-        st.markdown("### SYSTEM STATUS")
-        st.success("● ONLINE: LE SABLIER PRO")
-        st.caption("Firmware: v3.0.1 | Latency: 12ms")
-        
-        st.markdown("---")
-        st.markdown("### LIVE SENSORS")
-        col1, col2 = st.columns(2)
-        col1.metric("HRV", "45ms", "Relaxed")
-        col2.metric("TEMP", "36.5°C", "Normal")
-        
-        st.markdown("---")
-        st.markdown("### ENVIRONMENT")
-        st.caption("Location: Taipei, Taiwan")
-        st.caption("Humidity: 75% (High)")
-        st.caption("Air Quality: Moderate")
-
-        st.markdown("---")
-        st.markdown("### CAPSULE STATUS")
-        st.caption("Detected Capsules & Fluid Levels")
-        
-        tank_data = {
-            "Pod 1: Citrus (Top)": 0.8,
-            "Pod 2: Orange (Top)": 0.6,
-            "Pod 3: Mint (Top)": 0.9,
-            "Pod 4: Bergamot (Top)": 0.4,
-            "Pod 5: Rose (Heart)": 0.7,
-            "Pod 6: Jasmine (Heart)": 0.3,
-            "Pod 7: Geranium (Heart)": 0.5,
-            "Pod 8: Lavender (Heart)": 0.6,
-            "Pod 9: Musk (Base)": 0.8,
-            "Pod 10: Vanilla (Base)": 0.9,
-            "Pod 11: Cedar (Base)": 0.9,
-            "Pod 12: Benzoin (Base)": 0.5,
-            "Pod 13: Solvent (Alc)": 0.7,
-        }
-        
-        with st.container():
-            for name, level in tank_data.items():
-                st.text(name)
-                st.progress(level)
-            
-        if st.session_state.saved_presets:
-            st.markdown("---")
-            st.info(f"💾 {len(st.session_state.saved_presets)} Saved Presets")
-    
-else:
-    # 隱藏側邊欄邏輯 (生成後 或 Community 頁面 或 Presets 頁面)
-    # 注入 CSS 來隱藏側邊欄
-    st.markdown("""
-    <script>
-        var appElement = window.parent.document.querySelector('.stApp');
-        if (appElement) {
-            appElement.classList.add('sidebar-hidden');
-        }
-    </script>
-    <style>
-        section[data-testid="stSidebar"] {
-            display: none !important;
-        }
-    </style>
-    """, unsafe_allow_html=True)
-    
-    # 注意：這裡我們不在 st.sidebar 寫入任何東西，確保 community 頁面側邊欄完全消失
-    
-    # 只在 Presets 頁面時，如果想要有返回按鈕在側邊欄，才寫入 (但根據需求，community 要完全不見)
-    if st.session_state.page == 'presets':
-         with st.sidebar:
-             if st.button("← BACK TO HOME"):
-                st.session_state.page = 'home'
-                st.rerun()
+# 完全隱藏側邊欄
+st.markdown("""
+<style>
+    section[data-testid="stSidebar"] {
+        display: none !important;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # --- 3. 頁面內容 ---
 
